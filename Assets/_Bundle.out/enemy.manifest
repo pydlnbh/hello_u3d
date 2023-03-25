@@ -1,0 +1,48 @@
+ManifestFileVersion: 0
+CRC: 1918268450
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 41012292d984105bef9e703206603984
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f5f551b3f0f18b27bb3745007a8650ec
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5572a20700d062048b09285f9210f22e, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/_Bundle.Src/enemy/Img/Enemy_1.png
+- Assets/_Bundle.Src/enemy/Img/Particle_CircleLit.png
+- Assets/_Bundle.Src/enemy/Prefab/Enemy_1.prefab
+- Assets/_Bundle.Src/enemy/Mat/Particle_Square.mat
+- Assets/_Bundle.Src/enemy/Prefab/Enemy_2.prefab
+- Assets/_Bundle.Src/enemy/Img/Particle_Square.png
+- Assets/_Bundle.Src/enemy/Img/Enemy_2.png
+- Assets/_Bundle.Src/enemy/Mat/Particle_CircleLit.mat
+Dependencies: []

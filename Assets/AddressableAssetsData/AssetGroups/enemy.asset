@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: enemy
+  m_EditorClassIdentifier: 
+  m_GroupName: enemy
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c1e6cbfe0825073488485bcdfc0171db
+  m_SerializeEntries:
+  - m_GUID: 7b68db58e9405cd44b9c6e637b124f87
+    m_Address: Assets/_Bundle.out/enemy
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: fcbdfbe4db5f7bf40be2444e030534fd
+    m_Address: Assets/_Bundle.Src/enemy/Img/Enemy_1.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a820dd3068822a94daac91f44cd6c104
+    m_Address: Assets/_Bundle.Src/enemy/Img/Enemy_2.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7697547f16a6a1c4e97debdb395922c6
+    m_Address: Assets/_Bundle.Src/enemy/Img/Particle_CircleLit.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 647db613f7df90b458daea7db45fb398
+    m_Address: Assets/_Bundle.Src/enemy/Img/Particle_Square.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9d5f99f0dac1c7945af2d86748be8dad
+    m_Address: Assets/_Bundle.Src/enemy/Mat/Particle_CircleLit.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 962b4795f6c48784e8ea4cc0526cfa47
+    m_Address: Assets/_Bundle.Src/enemy/Mat/Particle_Square.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bec896e679c02ba4bbdd665cc7e70564
+    m_Address: Assets/_Bundle.Src/enemy/Prefab/Enemy_1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4e90132ba6f84be4f9e8e35bcdc681f6
+    m_Address: Assets/_Bundle.Src/enemy/Prefab/Enemy_2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 08bfc4f5c977190499ec6711ae455bd3, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a1c3075de1e000f46a767f11cee336ac, type: 2}
+    - {fileID: 11400000, guid: 84dce727d2fffa747af538bf4a06e857, type: 2}
