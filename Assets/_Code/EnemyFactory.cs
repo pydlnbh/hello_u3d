@@ -1,4 +1,5 @@
 ﻿
+using Comm;
 using System.Collections;
 using System.IO;
 using UnityEngine;
@@ -17,114 +18,53 @@ public static class EnemyFactory
 
     public class EnemyCreateRequest : IEnumerator
     {
-        private static AssetBundle _ab;
-
         /**
-         * 捆绑包名称
+         * 预制体加载请求
          */
-        private readonly string _bundleName;
+        private readonly PrefabLoadRequest _prefabLoadReq;
 
         /**
-         * 资产名称
-         */
-        private readonly string _assetName;
-
-        /**
-         * 已经创建的敌机对象
+         * 已创建的敌机
          */
         private GameObject _goNewEnemy;
 
-        /**
-         * 捆绑包加载状态
-         */
-        private int _abLoadState = -1;
-
-        /**
-         * 敌机创建状态
-         */
-        private int _newEnemyCreateState = -1;
-
+        /// <summary>
+        /// 类参数构造器
+        /// </summary>
+        /// <param name="bundleName">捆绑包名称</param>
+        /// <param name="assetName">资产名称</param>
         public EnemyCreateRequest(string bundleName, string assetName)
         {
-            _bundleName = bundleName;
-            _assetName = assetName;
+            if (string.IsNullOrEmpty(bundleName)
+             || string.IsNullOrEmpty(assetName))
+            {
+                throw new System.ArgumentNullException();
+            }
+
+            _prefabLoadReq = new PrefabLoadRequest(bundleName, assetName);
         }
 
         public object Current => 1;
 
         public bool MoveNext()
         {
-            LoadAb();
-            CreateNewEnemy();
-            return _newEnemyCreateState != 1;
-        }
-
-        public void LoadAb()
-        {
-            if (null != _ab)
+            if (_prefabLoadReq.MoveNext())
             {
-                _abLoadState = 1;
-                return;
+                return true;
             }
 
-            if (-1 != _abLoadState)
+            var goPrefab = _prefabLoadReq.GetPrefab();
+
+            if (null == goPrefab)
             {
-                return;
+                return false;
             }
 
-            // 设置正在加载的状态
-            _abLoadState = 0;
+            // 创建复制体
+            _goNewEnemy = GameObject.Instantiate(goPrefab);
+            _goNewEnemy.SetActive(true);
 
-            // 类似加载一个 zip 文件
-            var abPath = Path.Combine(Application.dataPath, _bundleName);
-            var abCreateRequest = AssetBundle.LoadFromFileAsync(abPath);
-            abCreateRequest.completed += (_) =>
-            {
-                // 拿到 zip 文件了, 还得拿到 zip 文件里面的某个文件
-                _ab = abCreateRequest.assetBundle;
-                _abLoadState = 1;
-            };
-        }
-
-        public void CreateNewEnemy()
-        {
-            if (_goNewEnemy != null)
-            {
-                _newEnemyCreateState = 1;
-                return;
-            }
-
-            if (-1 != _newEnemyCreateState)
-            {
-                // 已经处在创建中的状态，直接退出
-                return;
-            }
-
-            if (1 != _abLoadState)
-            {
-                return;
-            }
-
-            if (null == _ab)
-            {
-                _newEnemyCreateState = 1;
-                return;
-            }
-
-            _newEnemyCreateState = 0;
-            
-            var abRequest = _ab.LoadAssetAsync<GameObject>(_assetName);
-            abRequest.completed += (_) =>
-            {
-                var goPrefab = abRequest.asset as GameObject;
-
-                // 创建复制体
-                GameObject goNewEnemy = GameObject.Instantiate(goPrefab);
-                goNewEnemy.SetActive(true);
-
-                _goNewEnemy = goNewEnemy;
-                _newEnemyCreateState = 1;
-            };
+            return false;
         }
 
         public void Reset()

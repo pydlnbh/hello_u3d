@@ -1,7 +1,10 @@
 ManifestFileVersion: 0
-CRC: 4144298798
+CRC: 2818112776
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: enemy
+      Dependencies: {}
+    Info_1:
+      Name: gun
       Dependencies: {}

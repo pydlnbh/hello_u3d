@@ -1,3 +1,4 @@
+using Gun;
 using UnityEngine;
 
 public class FighterBehav : MonoBehaviour
@@ -88,13 +89,20 @@ public class FighterBehav : MonoBehaviour
             // 把当前时间赋值上去
             _lastTimes = Time.time;
 
-            // 找到子弹对象
-            var goBullet = gameObject.transform.Find("Bullet").gameObject;
-            // 生成子弹对象
-            var goNewBullet = GameObject.Instantiate(goBullet);
+            var bulletCreateReq = BulletFactory.createNewBullet(
+                "_Bundle.Out/gun",
+                "Assets/_Bundle.src/gun/Prefab/bullet_1.prefab"
+            );
 
-            goNewBullet.transform.position = gameObject.transform.position;
-            goNewBullet.SetActive(true);
+            // yield return bulletCreateReq;
+
+            //// 找到子弹对象
+            //var goBullet = gameObject.transform.Find("Bullet").gameObject;
+            //// 生成子弹对象
+            //var goNewBullet = GameObject.Instantiate(goBullet);
+
+            //goNewBullet.transform.position = gameObject.transform.position;
+            //goNewBullet.SetActive(true);
         }
 
     }
