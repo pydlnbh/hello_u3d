@@ -67,7 +67,7 @@ public class EnemyBehav : MonoBehaviour
             return;
         }
 
-        Destroy(collision.gameObject);
+        // Destroy(collision.gameObject);
 
         if (_shakeEnum == null)
         {

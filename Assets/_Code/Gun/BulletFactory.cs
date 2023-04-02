@@ -1,4 +1,5 @@
 ﻿using Comm;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -28,6 +29,16 @@ namespace Gun
              */
             private GameObject _goBullet;
 
+            /**
+             * 完成回调函数
+             */
+            private Action<BulletCreateRequest> _completed = null;
+
+            /**
+             * 回调函数调用标识
+             */
+            private bool _completeFuncHasBeenCalled = false;
+
             public BulletCreateRequest(string bundleName, string assetName)
             {
                 if (string.IsNullOrEmpty(bundleName)
@@ -37,6 +48,12 @@ namespace Gun
                 }
 
                 _prefabLoadReq = new PrefabLoadRequest(bundleName, assetName);
+                _prefabLoadReq.completed += (_) =>
+                {
+                    MoveNext();
+                };
+
+                MoveNext();
             }
 
             public object Current => 1;
@@ -58,11 +75,38 @@ namespace Gun
                 _goBullet = GameObject.Instantiate(goPrefab);
                 _goBullet.SetActive(true);
 
+                if (!_completeFuncHasBeenCalled 
+                 && null != completed)
+                {
+                    _completeFuncHasBeenCalled = true;
+                    completed.Invoke(this);
+                }
+
                 return false;
             }
 
             public void Reset()
             {
+            }
+
+            /// <summary>
+            /// 回调方法
+            /// </summary>
+            public Action<BulletCreateRequest> completed
+            {
+                get => _completed;
+                set
+                {
+                    _completed = value;
+
+                    if (null != GetBullet() 
+                     && !_completeFuncHasBeenCalled 
+                     && null != _completed)
+                    {
+                        _completeFuncHasBeenCalled = true;
+                        _completed.Invoke(this);
+                    }
+                }
             }
 
             public GameObject GetBullet() => _goBullet;

@@ -3,13 +3,20 @@ using UnityEngine;
 
 public class FighterBehav : MonoBehaviour
 {
-
+    /**
+     * 移动速度
+     */
     private const float MOVE_SPEED = 20f;
 
     /**
-     * 上一次发射子弹的时间, 单位 = 秒
+     * 子弹实现类1
      */
-    private float _lastTimes = -1f;
+    private AbstractGun _currGun1 = new GunImpl_LitBall();
+
+    /**
+     * 子弹实现类2
+     */
+    private AbstractGun _currGun2 = new GunImpl_Flash();
 
     /// <summary>
     /// 在第一帧更新之前执行, 而且只执行一次
@@ -80,29 +87,13 @@ public class FighterBehav : MonoBehaviour
 
         if (Input.GetKey(KeyCode.J)) 
         {
-            // 如果当前时间减去上一次发射子弹的时间，不执行下面逻辑
-            if (Time.time - _lastTimes <= 0.1f)
-            {
-                return;
-            }
+            // _currGun1.level = 3;
+            // 开火
+            // _currGun1.Fire(transform.position);
 
-            // 把当前时间赋值上去
-            _lastTimes = Time.time;
-
-            var bulletCreateReq = BulletFactory.createNewBullet(
-                "_Bundle.Out/gun",
-                "Assets/_Bundle.src/gun/Prefab/bullet_1.prefab"
-            );
-
-            // yield return bulletCreateReq;
-
-            //// 找到子弹对象
-            //var goBullet = gameObject.transform.Find("Bullet").gameObject;
-            //// 生成子弹对象
-            //var goNewBullet = GameObject.Instantiate(goBullet);
-
-            //goNewBullet.transform.position = gameObject.transform.position;
-            //goNewBullet.SetActive(true);
+            // _currGun1.level = 3;
+            // 开火
+            _currGun2.Fire(transform.position);
         }
 
     }

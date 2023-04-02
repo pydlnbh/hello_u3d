@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using static Gun.BulletFactory;
 
 namespace Comm
 {
@@ -34,6 +36,16 @@ namespace Comm
          */
         private GameObject _goPrefab;
 
+        /**
+        * 完成回调函数
+        */
+        private Action<PrefabLoadRequest> _completed = null;
+
+        /**
+         * 回调函数调用标识
+         */
+        private bool _completeFuncHasBeenCalled = false;
+
         /// <summary>
         /// 类参数构造器
         /// </summary>
@@ -58,7 +70,19 @@ namespace Comm
             LoadAb();
             LoadPrefab();
 
-            return _prefabLoadState != 1;
+            if (1 != _prefabLoadState)
+            {
+                return true;
+            }
+
+            if (!_completeFuncHasBeenCalled
+             && null != completed)
+            {
+                _completeFuncHasBeenCalled = true;
+                completed.Invoke(this);
+            }
+
+            return false;
         }
 
         public void LoadAb()
@@ -96,6 +120,8 @@ namespace Comm
                 // 拿到 zip 文件了, 还得拿到 zip 文件里面的某个文件
                 abLoadEntry.Ab = abCreateRequest.assetBundle;
                 abLoadEntry.AbLoadState = 1;
+
+                MoveNext();
             };
         }
 
@@ -135,11 +161,33 @@ namespace Comm
             {
                 _goPrefab = abRequest.asset as GameObject;
                 _prefabLoadState = 1;
+
+                MoveNext();
             };
         }
 
         public void Reset()
         {
+        }
+
+        /// <summary>
+        /// 回调方法
+        /// </summary>
+        public Action<PrefabLoadRequest> completed
+        {
+            get => _completed;
+            set
+            {
+                _completed = value;
+
+                if (null != GetPrefab()
+                 && !_completeFuncHasBeenCalled
+                 && null != _completed)
+                {
+                    _completeFuncHasBeenCalled = true;
+                    _completed.Invoke(this);
+                }
+            }
         }
 
         /// <summary>

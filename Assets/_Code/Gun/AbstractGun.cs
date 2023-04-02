@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using UnityEngine;
 
 namespace Gun
 {
@@ -23,6 +19,7 @@ namespace Gun
         /// <summary>
         /// 开火
         /// </summary>
-        public abstract void Fire();
+        /// <param name="atWordPos">开火的位置</param>
+        public abstract void Fire(Vector3 atWordPos);
     }
 }
