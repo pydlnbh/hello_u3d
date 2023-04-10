@@ -1,3 +1,4 @@
+using Gun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -90,6 +91,25 @@ public class EnemyBehav : MonoBehaviour
             goNewPSys.transform.SetPositionAndRotation(gameObject.transform.position, Quaternion.identity);
 
             goNewPSys.GetComponent<ParticleSystem>().Play();
+
+            if (Random.Range(0, 100) <= 10)
+            {
+                // [1, 3) => 1, 2
+                var bulletType = Random.Range(1, 3);
+
+                var rewardAtWorldPos = gameObject.transform.position;
+
+                var req = RewardFactory.createNewReward(
+                    "_Bundle.Out/reward",
+                    $"Assets/_Bundle.Src/reward/Prefab/Reward_Bullet_{bulletType}.prefab"
+                );
+
+                req.completed += (_) =>
+                {
+                    var goReward = req.GetReward();
+                    goReward.transform.position = rewardAtWorldPos;
+                };
+            }
 
             Destroy(gameObject);
         }

@@ -11,12 +11,10 @@ public class FighterBehav : MonoBehaviour
     /**
      * 子弹实现类1
      */
-    private AbstractGun _currGun1 = new GunImpl_LitBall();
-
-    /**
-     * 子弹实现类2
-     */
-    private AbstractGun _currGun2 = new GunImpl_Flash();
+    private AbstractGun _currGun = new GunImpl_LitBall()
+    {
+        level = 1
+    };
 
     /// <summary>
     /// 在第一帧更新之前执行, 而且只执行一次
@@ -85,16 +83,44 @@ public class FighterBehav : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.J)) 
+        if (Input.GetKey(KeyCode.J))
         {
-            // _currGun1.level = 3;
             // 开火
-            // _currGun1.Fire(transform.position);
-
-            // _currGun1.level = 3;
-            // 开火
-            _currGun2.Fire(transform.position);
+            _currGun.Fire(transform.position);
         }
 
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.name.StartsWith("Reward_Bullet_1"))
+        {
+            if (_currGun is GunImpl_LitBall)
+            {
+                _currGun.level = Mathf.Min(4, ++_currGun.level);
+            }
+            else
+            {
+                _currGun = new GunImpl_LitBall()
+                {
+                    level = 1
+                };
+            }
+
+            GameObject.Destroy(collision.gameObject);
+        }
+        else 
+        if (collision.gameObject.name.StartsWith("Reward_Bullet_2"))
+        {
+            if (_currGun is GunImpl_Flash)
+            {
+                _currGun.level = Mathf.Min(4, ++_currGun.level);
+            }
+            else
+            {
+                _currGun = new GunImpl_Flash();
+            }
+            GameObject.Destroy(collision.gameObject);
+        }
     }
 }

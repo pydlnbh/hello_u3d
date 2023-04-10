@@ -28,7 +28,6 @@ namespace Gun
 
             req.completed += (req) =>
             {
-
                 var newBullet = req.GetBullet();
                 newBullet.gameObject.transform.position = atWordPos;
 
