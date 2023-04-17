@@ -144,7 +144,7 @@ public class FighterBehav : MonoBehaviour
         {
             if (_currGun is GunImpl_LitBall)
             {
-                _currGun.level = Mathf.Min(4, ++_currGun.level);
+                _currGun.level = Mathf.Min(3, ++_currGun.level);
             }
             else
             {
@@ -161,11 +161,14 @@ public class FighterBehav : MonoBehaviour
         {
             if (_currGun is GunImpl_Flash)
             {
-                _currGun.level = Mathf.Min(4, ++_currGun.level);
+                _currGun.level = Mathf.Min(3, ++_currGun.level);
             }
             else
             {
-                _currGun = new GunImpl_Flash();
+                _currGun = new GunImpl_Flash()
+                { 
+                    level = 2
+                };
             }
             GameObject.Destroy(collision.gameObject);
         }
