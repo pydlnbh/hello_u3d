@@ -29,8 +29,9 @@ namespace Gun
             req.completed += (req) =>
             {
                 var newBullet = req.GetBullet();
+                newBullet.GetComponent<BulletImpl_Flash>().PutDmg(level * 3);
                 newBullet.gameObject.transform.position = atWordPos;
-
+                newBullet.SetActive(true);
             };
         }
     }

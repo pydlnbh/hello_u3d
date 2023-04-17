@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6653532298311895754}
   - component: {fileID: 6653532298311895752}
   - component: {fileID: 6653532298311895753}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PSys_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4883,7 +4883,7 @@ GameObject:
   - component: {fileID: 6653532298337317255}
   - component: {fileID: 6653532298337317248}
   - component: {fileID: 6653532298337317254}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5013,7 +5013,7 @@ GameObject:
   - component: {fileID: 6653532298741158995}
   - component: {fileID: 6653532298741158993}
   - component: {fileID: 6653532298741158994}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PSys_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9883,7 +9883,7 @@ GameObject:
   - component: {fileID: 6653532299840333538}
   - component: {fileID: 6653532299840333536}
   - component: {fileID: 6653532299840333537}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PSys_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14753,7 +14753,7 @@ GameObject:
   - component: {fileID: 6653532300056760023}
   - component: {fileID: 6653532300056760021}
   - component: {fileID: 6653532300056760022}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PSys_ForDestory
   m_TagString: Untagged
   m_Icon: {fileID: 0}

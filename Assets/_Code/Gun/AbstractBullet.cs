@@ -17,5 +17,12 @@ namespace Gun
         /// 让子弹飞一会
         /// </summary>
         public abstract void DoFly();
+
+
+        /// <summary>
+        /// 获取杀伤力
+        /// </summary>
+        /// <returns>杀伤力</returns>
+        public abstract int GetDmg();
     }
 }

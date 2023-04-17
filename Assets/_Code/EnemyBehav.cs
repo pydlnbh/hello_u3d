@@ -79,7 +79,9 @@ public class EnemyBehav : MonoBehaviour
             .gameObject.GetComponent<ParticleSystem>()
             .Play();
 
-        _curHP--;
+        var bulletBehave = collision.gameObject.GetComponent<AbstractBullet>();
+        _curHP -= bulletBehave.GetDmg();
+
         _lastTime = Time.time;
 
         if (_curHP <= 0)

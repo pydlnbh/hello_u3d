@@ -1,4 +1,5 @@
 using Gun;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class FighterBehav : MonoBehaviour
@@ -27,61 +28,31 @@ public class FighterBehav : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var dirX = 0;
+        var dirY = 0;
+
         if (Input.GetKey(KeyCode.W))
         {
-            gameObject.transform.Translate(Vector3.up * MOVE_SPEED * Time.deltaTime);
-
-            if (gameObject.transform.position.y > 21f)
-            {
-                gameObject.transform.position = new Vector3(
-                    gameObject.transform.position.x,
-                    21f,
-                    0f
-                );
-            }
+            dirY = 1;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            gameObject.transform.Translate(Vector3.left * MOVE_SPEED * Time.deltaTime);
-
-            if (gameObject.transform.position.x < -10f)
-            {
-                gameObject.transform.position = new Vector3(
-                    -10f,
-                    gameObject.transform.position.y,
-                    0f
-                );
-            }
+            dirX = -1;
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            gameObject.transform.Translate(Vector3.down * MOVE_SPEED * Time.deltaTime);
-
-            if (gameObject.transform.position.y < -19f)
-            {
-                gameObject.transform.position = new Vector3(
-                    gameObject.transform.position.x,
-                    -19f,
-                    0f
-                );
-            }
+            dirY = -1;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            gameObject.transform.Translate(Vector3.right * MOVE_SPEED * Time.deltaTime);
-
-            if (gameObject.transform.position.x > 10f)
-            {
-                gameObject.transform.position = new Vector3(
-                    10f,
-                    gameObject.transform.position.y,
-                    0f
-                );
-            }
+            dirX = 1;
         }
+
+        DoMoveX(dirX);
+        DoMoveY(dirY);
 
         if (Input.GetKey(KeyCode.J))
         {
@@ -91,6 +62,82 @@ public class FighterBehav : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 向左右移动
+    /// </summary>
+    /// <param name="dirX">X 轴方向, 取 -1 / +1</param>
+    private void DoMoveX(int dirX)
+    {
+        if (dirX == 0)
+        {
+            return;
+        }
+
+        var hited = Physics.Raycast(
+            transform.position + Vector3.left * dirX,
+            Vector3.right * dirX,
+            out var hitInfo,
+            100f,
+            LayerMask.GetMask("VirtualWall")
+        );
+
+        if (!hited)
+        {
+            return;
+        }
+
+        // 中心到墙的距离, 实际可以移动的距离
+        var mxD = hitInfo.distance - 1f;
+        // 理论上的移动距离
+        var mvD = MOVE_SPEED * Time.deltaTime;
+
+        transform.Translate(Vector3.right * dirX * Mathf.Min(mxD, mvD));
+    }
+
+    /// <summary>
+    /// 向上下移动
+    /// </summary>
+    /// <param name="dirY">Y 轴方向, 取 -1 / +1</param>
+    private void DoMoveY(int dirY)
+    {
+        if (dirY == 0)
+        {
+            return;
+        }
+
+        var hited = Physics.Raycast(
+            transform.position + Vector3.down * dirY,
+            Vector3.up * dirY,
+            out var hitInfo,
+            100f,
+            LayerMask.GetMask("VirtualWall")
+        );
+
+        if (!hited)
+        {
+            return;
+        }
+
+        // 中心到墙的距离, 实际可以移动的距离
+        var mxD = hitInfo.distance - 1f;
+        // 理论上的移动距离
+        var mvD = MOVE_SPEED * Time.deltaTime;
+
+        transform.Translate(Vector3.up * dirY * Mathf.Min(mxD, mvD));
+    }
+
+    /// <summary>
+    /// 带有物理效果的碰撞
+    /// </summary>
+    /// <param name="collision">另一个碰撞体</param>
+    private void OnCollisionEnter(Collision collision)
+    {
+    }
+
+    /// <summary>
+    /// 不带物理效果的碰撞
+    /// </summary>
+    /// <param name="collision">另一个碰撞体</param>
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.name.StartsWith("Reward_Bullet_1"))

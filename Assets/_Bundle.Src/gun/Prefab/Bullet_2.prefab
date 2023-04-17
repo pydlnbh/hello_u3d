@@ -13,13 +13,13 @@ GameObject:
   - component: {fileID: 362180692284485287}
   - component: {fileID: 8147591564281086825}
   - component: {fileID: 8147591564281086826}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bullet_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8147591564281086828
 Transform:
   m_ObjectHideFlags: 0
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 5928264084315070254}
   - component: {fileID: 133167157695109730}
   - component: {fileID: 8354217702968369858}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Psys_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

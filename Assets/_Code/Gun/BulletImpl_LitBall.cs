@@ -18,5 +18,7 @@ namespace Gun
                 Destroy(gameObject);
             }
         }
+
+        public override int GetDmg() => 1;
     }
 }

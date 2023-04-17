@@ -17,7 +17,9 @@ public class GameSceneBehav : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        return;
+        GameObject.Find("BGGroup/BG")
+            .GetComponent<MeshRenderer>()
+            .material.SetTextureOffset("_MainTex", Vector2.up * (Time.time / 20f));
     }
 
     private IEnumerator CreateEnemy_XC()
