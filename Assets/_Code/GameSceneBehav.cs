@@ -11,7 +11,32 @@ public class GameSceneBehav : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(CreateEnemy_XC());
+        // StartCoroutine(CreateEnemy_XC());
+
+        var bossBehav = GameObject.Find("/Boss_1").GetComponent<BossBehav>();
+        bossBehav.SubtractHpEventHandler = (subtractHpEvent) =>
+        {
+            if (null == subtractHpEvent)
+            {
+                return;
+            }
+
+            int currHp = subtractHpEvent.CurrHp;
+            int maxHp = subtractHpEvent.MaxHp;
+            float widthRatio = (float)currHp / maxHp;
+
+            var rtHpSlot = GameObject.Find("/Canvas/Img_HpSlot").transform as RectTransform;
+            var rtHpVal = rtHpSlot.Find("Img_HpVal") as RectTransform;
+
+            /*var currHpWidth = rtHpSlot.rect.width * widthRatio;
+            rtHpVal.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, currHpWidth);*/
+
+            var leftMoveWidth = rtHpSlot.rect.width * (1f - widthRatio);
+
+            var newPos = rtHpVal.anchoredPosition;
+            newPos.Set(-leftMoveWidth, newPos.y);
+            rtHpVal.anchoredPosition = newPos;
+        };
     }
 
     // Update is called once per frame
