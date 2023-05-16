@@ -1,5 +1,5 @@
 ﻿// using Anim;
-// using DG.Tweening;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -27,7 +27,16 @@ public sealed class FirstSceneBehav : MonoBehaviour
                 //        SceneManager.LoadScene("GameScene");
                 //    });
 
-                // goButton_StartGame.transform.DOScale(1f, 0.5f);
+                // 使用 DoTween 缓动插件
+                goButton_StartGame.transform
+                    .DOShakeScale(1.5f, 0.5f)
+                    .OnComplete(() =>
+                    {
+                        goButton_StartGame.transform.localScale = Vector3.one;
+
+                        //跳转到游戏场景
+                        SceneManager.LoadScene("GameScene");
+                    });
             });
     }
 
