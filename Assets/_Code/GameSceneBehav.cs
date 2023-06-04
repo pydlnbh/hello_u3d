@@ -16,7 +16,7 @@ public class GameSceneBehav : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // StartCoroutine(CreateEnemy_XC());
+        StartCoroutine(CreateEnemy_XC());
 
         var bossBehav = GameObject.Find("/Boss_1").GetComponent<BossBehav>();
         bossBehav.SubtractHpEventHandler = (subtractHpEvent) =>
