@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class FighterBehav : MonoBehaviour
 {
+
+    /**
+     * 单例对象
+     */
+    private static FighterBehav INSTANCE;
+
     /**
      * 移动速度
      */
@@ -18,11 +24,17 @@ public class FighterBehav : MonoBehaviour
     };
 
     /// <summary>
+    /// 获取单例对象
+    /// </summary>
+    /// <returns>单例对象</returns>
+    public static FighterBehav TheInstance() => INSTANCE;
+
+    /// <summary>
     /// 在第一帧更新之前执行, 而且只执行一次
     /// </summary>
     void Start()
     {
-
+        INSTANCE = this;
     }
 
     // Update is called once per frame
@@ -63,10 +75,29 @@ public class FighterBehav : MonoBehaviour
     }
 
     /// <summary>
+    /// 执行开火
+    /// </summary>
+    public void DoFire()
+    {
+        // 开火
+        _currGun.Fire(transform.position);
+    }
+
+    /// <summary>
+    /// 根据方向进行移动
+    /// </summary>
+    /// <param name="normalDir">归一化的方向</param>
+    public void DoMoveBy(Vector3 normalDir)
+    {
+        DoMoveX(normalDir.x);
+        DoMoveY(normalDir.y);
+    }
+
+    /// <summary>
     /// 向左右移动
     /// </summary>
-    /// <param name="dirX">X 轴方向, 取 -1 / +1</param>
-    private void DoMoveX(int dirX)
+    /// <param name="dirX">X 轴方向, 取 [-1, 1] </param>
+    private void DoMoveX(float dirX)
     {
         if (dirX == 0)
         {
@@ -74,7 +105,7 @@ public class FighterBehav : MonoBehaviour
         }
 
         var hited = Physics.Raycast(
-            transform.position + Vector3.left * dirX,
+            transform.position + Vector3.left * (dirX < 0f ? -1f : 1f),
             Vector3.right * dirX,
             out var hitInfo,
             100f,
@@ -97,8 +128,8 @@ public class FighterBehav : MonoBehaviour
     /// <summary>
     /// 向上下移动
     /// </summary>
-    /// <param name="dirY">Y 轴方向, 取 -1 / +1</param>
-    private void DoMoveY(int dirY)
+    /// <param name="dirY">Y 轴方向, 取 [-1, 1} </param>
+    private void DoMoveY(float dirY)
     {
         if (dirY == 0)
         {
@@ -106,7 +137,7 @@ public class FighterBehav : MonoBehaviour
         }
 
         var hited = Physics.Raycast(
-            transform.position + Vector3.down * dirY,
+            transform.position + Vector3.down * (dirY < 0f ? -1f : 1f),
             Vector3.up * dirY,
             out var hitInfo,
             100f,
@@ -173,4 +204,6 @@ public class FighterBehav : MonoBehaviour
             GameObject.Destroy(collision.gameObject);
         }
     }
+
+    
 }

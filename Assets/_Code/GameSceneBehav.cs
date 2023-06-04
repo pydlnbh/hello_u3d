@@ -4,6 +4,11 @@ using UnityEngine;
 public class GameSceneBehav : MonoBehaviour
 {
     /**
+     * 输入策略
+     */
+    private readonly AbstractInputStrategy _inputStrategy = new TouchInputStrategy();
+
+    /**
      * 敌机节点
      */
     public GameObject _enemy_1;
@@ -42,6 +47,8 @@ public class GameSceneBehav : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _inputStrategy.HandleInput();
+
         GameObject.Find("BGGroup/BG")
             .GetComponent<MeshRenderer>()
             .material.SetTextureOffset("_MainTex", Vector2.up * (Time.time / 20f));
