@@ -1,0 +1,38 @@
+ManifestFileVersion: 0
+CRC: 1668934695
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 8451e8628cf3ebb98137694228a750d7
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 4ed67fb8d125df87ab4b4c7a5459b08b
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: a6b194f808b1af6499c93410e504af42, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f1b3b4b945939a54ea0b23d3396115fb, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: spine-unity
+  ClassName: Spine.Unity.BlendModeMaterials
+Assets:
+- Assets/_Bundle.Src/boss/Spine/Boos_1/Boss_1.png
+- Assets/_Bundle.Src/boss/Spine/Boos_1/Boss_1_Atlas.asset
+- Assets/_Bundle.Src/boss/Spine/Boos_1/Boss_1.json
+- Assets/_Bundle.Src/boss/Spine/Boos_1/Boss_1_SkeletonData.asset
+- Assets/_Bundle.Src/boss/Spine/Boos_1/Boss_1_Material.mat
+- Assets/_Bundle.Src/boss/Spine/Boos_1/Boss_1.atlas.txt
+Dependencies: []

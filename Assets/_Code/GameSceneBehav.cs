@@ -4,9 +4,12 @@ using UnityEngine;
 public class GameSceneBehav : MonoBehaviour
 {
     /**
-     * 输入策略
+     * 鼠标输入策略
      */
-    private readonly AbstractInputStrategy _inputStrategy = new TouchInputStrategy();
+     private readonly AbstractInputStrategy _inputStrategy = new TouchInputStrategy();
+
+    // 键盘输入策略
+    // private readonly AbstractInputStrategy _inputStrategy = new KeyboardInputStrategy();
 
     /**
      * 敌机节点
@@ -65,14 +68,14 @@ public class GameSceneBehav : MonoBehaviour
             {
                 yield return new WaitForSeconds(Random.Range(0f, 0.5f));
 
-                var enemyCreateReqest = EnemyFactory.CreateEnemy(
-                    "_Bundle.out/enemy",
-                    "Assets/_Bundle.src/enemy/Prefab/Enemy_1.prefab"
+                var enemyCreateRequest = EnemyFactory.CreateEnemy(
+                    "_Bundle.Out/enemy",
+                    "Assets/_Bundle.Src/enemy/Prefab/Enemy_1.prefab"
                 );
 
-                yield return enemyCreateReqest;
+                yield return enemyCreateRequest;
 
-                var goNewEnemy = enemyCreateReqest.GetNewEnemy();
+                var goNewEnemy = enemyCreateRequest.GetNewEnemy();
 
                 goNewEnemy.transform.position += Vector3.right * Random.Range(-4f, 4f);
                 // goNewEnemy.transform.Rotate(Vector3.forward * 45f);

@@ -1,5 +1,4 @@
 using Gun;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class FighterBehav : MonoBehaviour
@@ -13,7 +12,7 @@ public class FighterBehav : MonoBehaviour
     /**
      * 移动速度
      */
-    private const float MOVE_SPEED = 20f;
+    private const float MOVE_SPEED = 30f;
 
     /**
      * 子弹实现类1
@@ -40,37 +39,6 @@ public class FighterBehav : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var dirX = 0;
-        var dirY = 0;
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            dirY = 1;
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            dirX = -1;
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            dirY = -1;
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            dirX = 1;
-        }
-
-        DoMoveX(dirX);
-        DoMoveY(dirY);
-
-        if (Input.GetKey(KeyCode.J))
-        {
-            // 开火
-            _currGun.Fire(transform.position);
-        }
 
     }
 
@@ -187,7 +155,7 @@ public class FighterBehav : MonoBehaviour
 
             GameObject.Destroy(collision.gameObject);
         }
-        else 
+        else
         if (collision.gameObject.name.StartsWith("Reward_Bullet_2"))
         {
             if (_currGun is GunImpl_Flash)
@@ -197,7 +165,7 @@ public class FighterBehav : MonoBehaviour
             else
             {
                 _currGun = new GunImpl_Flash()
-                { 
+                {
                     level = 2
                 };
             }
@@ -205,5 +173,5 @@ public class FighterBehav : MonoBehaviour
         }
     }
 
-    
+
 }

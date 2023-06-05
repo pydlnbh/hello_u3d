@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using static Gun.BulletFactory;
+using UnityEngine.Networking;
 
 namespace Comm
 {
@@ -61,6 +61,8 @@ namespace Comm
 
             _bundleName = bundleName;
             _assetName = assetName;
+
+            MoveNext();
         }
 
         public object Current => 1;
@@ -112,6 +114,28 @@ namespace Comm
             // 设置正在加载的状态
             abLoadEntry.AbLoadState = 0;
 
+#if UNITY_ANDROID
+            // jar:file://xxx.apk!//assets/Xxx
+            var abPath = Path.Combine(Application.streamingAssetsPath, _bundleName);
+
+            var webReq = UnityWebRequest.Get(abPath);
+            var op = webReq.SendWebRequest();
+
+            op.completed += (_) =>
+            {
+                var data = webReq.downloadHandler.data;
+                var op2 = AssetBundle.LoadFromMemoryAsync(data);
+
+                op2.completed += (_) =>
+                {
+                    abLoadEntry.Ab = op2.assetBundle;
+                    abLoadEntry.AbLoadState = 1;
+
+                    MoveNext();
+                };
+            };
+
+#elif UNITY_EDITOR
             // 类似加载一个 zip 文件
             var abPath = Path.Combine(Application.dataPath, _bundleName);
             var abCreateRequest = AssetBundle.LoadFromFileAsync(abPath);
@@ -123,6 +147,7 @@ namespace Comm
 
                 MoveNext();
             };
+#endif
         }
 
         /// <summary>

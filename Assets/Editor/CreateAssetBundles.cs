@@ -7,14 +7,31 @@ public class  CreateAssetBundles
     [MenuItem("Tools/Build AssetBundles")]
     public static void BuildAllAssetBundles()
     {
-        string assetBundleDirectory = "Assets/_Bundle.out";
-        if (!Directory.Exists(assetBundleDirectory))
+        string assetBundleDir = "Assets/_Bundle.Out";
+        if (!Directory.Exists(assetBundleDir))
         {
-            Directory.CreateDirectory(assetBundleDirectory);
+            Directory.CreateDirectory(assetBundleDir);
         }
-        BuildPipeline.BuildAssetBundles(assetBundleDirectory,
+        BuildPipeline.BuildAssetBundles(assetBundleDir,
                                         BuildAssetBundleOptions.None,
-                                        BuildTarget.StandaloneWindows);
+                                        EditorUserBuildSettings.activeBuildTarget);
+
+        var streamAssetsDir = "Assets/StreamingAssets/_Bundle.Out/";
+        
+        if (!Directory.Exists(streamAssetsDir))
+        {
+            Directory.CreateDirectory(streamAssetsDir);
+        }
+
+        var fileNameArr = Directory.GetFiles(assetBundleDir);
+
+        foreach (var fileName in fileNameArr)
+        {
+            var copyToFileName = Path.GetFileName(fileName);
+            copyToFileName = Path.Combine(streamAssetsDir, copyToFileName);
+
+            File.Copy(fileName, copyToFileName);
+        }
     }
 
     [MenuItem("Tools/Hi")]

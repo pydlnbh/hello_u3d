@@ -25,7 +25,7 @@ namespace Gun
 
             var req = BulletFactory.createNewBullet(
                 "_Bundle.Out/gun",
-                "Assets/_Bundle.src/gun/Prefab/Bullet_1.prefab"
+                "Assets/_Bundle.Src/gun/Prefab/Bullet_1.prefab"
             );
 
             req.completed += (req) =>

@@ -17,10 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: c1e6cbfe0825073488485bcdfc0171db
   m_SerializeEntries:
-  - m_GUID: 7b68db58e9405cd44b9c6e637b124f87
-    m_Address: Assets/_Bundle.out/enemy
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: fcbdfbe4db5f7bf40be2444e030534fd
     m_Address: Assets/_Bundle.Src/enemy/Img/Enemy_1.png
     m_ReadOnly: 0
