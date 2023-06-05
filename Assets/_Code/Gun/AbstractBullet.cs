@@ -7,7 +7,9 @@ namespace Gun
     /// </summary>
     public abstract class AbstractBullet : MonoBehaviour
     {
-
+        /// <summary>
+        /// Update
+        /// </summary>
         private void Update()
         {
             DoFly();
@@ -17,7 +19,6 @@ namespace Gun
         /// 让子弹飞一会
         /// </summary>
         public abstract void DoFly();
-
 
         /// <summary>
         /// 获取杀伤力

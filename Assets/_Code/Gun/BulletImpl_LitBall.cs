@@ -2,23 +2,41 @@ using UnityEngine;
 
 namespace Gun
 {
+    /// <summary>
+    /// 瀛愬脊琛屼负
+    /// </summary>
     public sealed class BulletImpl_LitBall : AbstractBullet
     {
         /**
-        * 移动速度
-        */
-        private const float MOVE_SPEED = 64f;
+         * 绉诲姩閫熷害
+         */
+        private const float MV_SPEED = 64f;
 
-        public override void DoFly()
+        /// <summary>
+        /// OnCollisionEnter
+        /// </summary>
+        /// <param name="c">鍙﹀涓�涓鎾炰綋</param>
+        private void OnCollisionEnter(Collision c)
         {
-            gameObject.transform.Translate(Vector3.up * MOVE_SPEED * Time.deltaTime);
-
-            if (gameObject.transform.position.y > 20f)
+            if (null != c
+             && c.gameObject.name.StartsWith("Enemy_"))
             {
                 Destroy(gameObject);
             }
         }
 
+        // @Override
+        public override void DoFly()
+        {
+            gameObject.transform.Translate(Vector3.up * (MV_SPEED * Time.deltaTime));
+
+            if (gameObject.transform.position.y > 30f)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        // @Override
         public override int GetDmg() => 1;
     }
 }

@@ -10,7 +10,7 @@ namespace Gun
         /// <summary>
         /// 等级
         /// </summary>
-        public int level
+        public int Level
         {
             get;
             set;
@@ -19,7 +19,7 @@ namespace Gun
         /// <summary>
         /// 开火
         /// </summary>
-        /// <param name="atWordPos">开火的位置</param>
-        public abstract void Fire(Vector3 atWordPos);
+        /// <param name="atWorldPos">所在世界位置</param>
+        public abstract void Fire(Vector3 atWorldPos);
     }
 }

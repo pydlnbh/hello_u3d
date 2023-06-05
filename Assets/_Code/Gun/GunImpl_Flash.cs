@@ -2,36 +2,35 @@
 
 namespace Gun
 {
+    /// <summary>
+    /// 闪电枪
+    /// </summary>
     public sealed class GunImpl_Flash : AbstractGun
     {
-
         /**
-        * 上一次发射子弹的时间, 单位 = 秒
-        */
-        private float _lastTimes = -1f;
+         * 上一次发射子弹的时间, 单位 = 秒
+         */
+        private float _lastFireTime = -1f;
 
-        public override void Fire(Vector3 atWordPos)
+        // @Override
+        public override void Fire(Vector3 atWorldPos)
         {
-            // 如果当前时间减去上一次发射子弹的时间，不执行下面逻辑
-            if (Time.time - _lastTimes <= 0.3f)
+            if (Time.time - _lastFireTime <= 0.3f)
             {
                 return;
             }
 
-            // 把当前时间赋值上去
-            _lastTimes = Time.time;
+            _lastFireTime = Time.time;
 
-            var req = BulletFactory.createNewBullet(
+            BulletFactory.CreateNewBullet(
                 "_Bundle.Out/gun",
                 "Assets/_Bundle.Src/gun/Prefab/Bullet_2.prefab"
-            );
-
-            req.completed += (req) =>
+            ).OnComplete += (req) =>
             {
-                var newBullet = req.GetBullet();
-                newBullet.GetComponent<BulletImpl_Flash>().PutDmg(level * 3);
-                newBullet.gameObject.transform.position = atWordPos;
-                newBullet.SetActive(true);
+                var goNewBullet = req.GetBullet();
+                goNewBullet.GetComponent<BulletImpl_Flash>().PutDmg(Level * 3); // Dmg = Damage
+                goNewBullet.transform.position = atWorldPos;
+                goNewBullet.SetActive(true);
             };
         }
     }

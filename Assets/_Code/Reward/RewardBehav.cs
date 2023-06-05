@@ -1,8 +1,10 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Reward
 {
+    /// <summary>
+    /// 奖励行为
+    /// </summary>
     public sealed class RewardBehav : MonoBehaviour
     {
         /**
@@ -25,39 +27,42 @@ namespace Reward
         /// </summary>
         private void Start()
         {
-            _dirX = Random.Range(0, 2) > 0 ? 1 : -1;
-            _dirY = Random.Range(0, 2) > 0 ? 1 : -1;
+            _dirX = Random.Range(0, 2) > 0 ? +1 : -1;
+            _dirY = Random.Range(0, 2) > 0 ? +1 : -1;
         }
 
+        /// <summary>
+        /// Update
+        /// </summary>
         private void Update()
         {
             if (transform.position.x < -10)
             {
-                // left
-                _dirX = 1;
+                // 左
+                _dirX = +1;
             }
             else
-            if (transform.position.x > 10)
+            if (transform.position.x > +10)
             {
-                // right
+                // 右
                 _dirX = -1;
             }
 
-            if (transform.position.y < -20)
+            if (transform.position.y > +20)
             {
-                // up
-                _dirY = 1;
-            }
-            else
-            if (transform.position.y > 20)
-            {
-                // down
+                // 上
                 _dirY = -1;
             }
+            else
+            if (transform.position.y < -20)
+            {
+                // 下
+                _dirY = +1;
+            }
 
-            transform.position += 
-                Vector3.right * (MOVE_SPEED * _dirX * Time.deltaTime)
-                + Vector3.up * (MOVE_SPEED * _dirY * Time.deltaTime);
+            transform.position +=
+                Vector3.right * (_dirX * MOVE_SPEED * Time.deltaTime)
+                 + Vector3.up * (_dirY * MOVE_SPEED * Time.deltaTime);
         }
     }
 }

@@ -1,26 +1,32 @@
 ﻿using Comm;
+
 using System;
 using System.Collections;
+
 using UnityEngine;
 
-namespace Gun
+namespace Reward
 {
     /// <summary>
     /// 奖励工厂类
     /// </summary>
     public static class RewardFactory
     {
-        public static RewardCreateRequest createNewReward(string bundleName, string assetName)
+        /// <summary>
+        /// 创建新奖励
+        /// </summary>
+        /// <param name="bundleName">捆绑包名称</param>
+        /// <param name="assetName">资产名称</param>
+        /// <returns>子弹创建请求</returns>
+        public static RewardCreateRequest CreateNewReward(string bundleName, string assetName)
         {
             return new RewardCreateRequest(bundleName, assetName);
         }
 
         /// <summary>
-        /// 类参数构造器
+        /// 奖励创建请求
         /// </summary>
-        /// <param name="bundleName">捆绑包名称</param>
-        /// <param name="assetName">资产名称</param>
-        public class RewardCreateRequest : IEnumerator
+        public sealed class RewardCreateRequest : IEnumerator
         {
             /**
              * 预制体加载请求
@@ -28,20 +34,27 @@ namespace Gun
             private readonly PrefabLoadRequest _prefabLoadReq;
 
             /**
-             * 新创建的子弹
+             * 新创建的奖励
              */
             private GameObject _goReward;
 
             /**
              * 完成回调函数
              */
-            private Action<RewardCreateRequest> _completed = null;
+            private Action<RewardCreateRequest> _onComplete = null;
 
             /**
-             * 回调函数调用标识
+             * 完成回调函数是否被调用过?
              */
             private bool _completeFuncHasBeenCalled = false;
 
+            /// <summary>
+            /// 类参数构造器
+            /// </summary>
+            /// <param name="bundleName">捆绑包名称</param>
+            /// <param name="assetName">资产名称</param>
+            /// <exception cref="System.ArgumentNullException">if bundleName is null or empty</exception>
+            /// <exception cref="System.ArgumentNullException">if assetName is null or empty</exception>
             public RewardCreateRequest(string bundleName, string assetName)
             {
                 if (string.IsNullOrEmpty(bundleName)
@@ -59,15 +72,17 @@ namespace Gun
                 MoveNext();
             }
 
+            // @Override
             public object Current => 1;
 
+            // @Override
             public bool MoveNext()
             {
                 if (_prefabLoadReq.MoveNext())
                 {
                     return true;
                 }
-                
+
                 var goPrefab = _prefabLoadReq.GetPrefab();
 
                 if (null == goPrefab)
@@ -79,39 +94,44 @@ namespace Gun
                 _goReward.SetActive(true);
 
                 if (!_completeFuncHasBeenCalled 
-                 && null != completed)
+                  && null != OnComplete)
                 {
                     _completeFuncHasBeenCalled = true;
-                    completed.Invoke(this);
+                    OnComplete.Invoke(this);
                 }
 
                 return false;
             }
 
+            // @Override
             public void Reset()
             {
             }
 
             /// <summary>
-            /// 回调方法
+            /// 完成回调函数
             /// </summary>
-            public Action<RewardCreateRequest> completed
+            public Action<RewardCreateRequest> OnComplete
             {
-                get => _completed;
+                get => _onComplete;
                 set
                 {
-                    _completed = value;
+                    _onComplete = value;
 
                     if (null != GetReward() 
-                     && !_completeFuncHasBeenCalled 
-                     && null != _completed)
+                     && !_completeFuncHasBeenCalled
+                     && null != _onComplete)
                     {
                         _completeFuncHasBeenCalled = true;
-                        _completed.Invoke(this);
+                        _onComplete.Invoke(this);
                     }
                 }
             }
 
+            /// <summary>
+            /// 获得奖励
+            /// </summary>
+            /// <returns>奖励游戏对象</returns>
             public GameObject GetReward() => _goReward;
         }
     }

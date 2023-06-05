@@ -1,9 +1,12 @@
 using Gun;
+
 using UnityEngine;
 
+/// <summary>
+/// 战机行为
+/// </summary>
 public class FighterBehav : MonoBehaviour
 {
-
     /**
      * 单例对象
      */
@@ -12,14 +15,14 @@ public class FighterBehav : MonoBehaviour
     /**
      * 移动速度
      */
-    private const float MOVE_SPEED = 30f;
+    private const float MV_SPEED = 30f;
 
     /**
-     * 子弹实现类1
+     * 当前枪
      */
     private AbstractGun _currGun = new GunImpl_LitBall()
-    {
-        level = 1
+    { 
+        Level = 1,
     };
 
     /// <summary>
@@ -36,10 +39,11 @@ public class FighterBehav : MonoBehaviour
         INSTANCE = this;
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// 每一帧都执行
+    /// </summary>
     void Update()
     {
-
     }
 
     /// <summary>
@@ -47,33 +51,35 @@ public class FighterBehav : MonoBehaviour
     /// </summary>
     public void DoFire()
     {
+        // 
         // 开火
+        // 
         _currGun.Fire(transform.position);
     }
 
     /// <summary>
-    /// 根据方向进行移动
+    /// 根据方向移动
     /// </summary>
     /// <param name="normalDir">归一化的方向</param>
     public void DoMoveBy(Vector3 normalDir)
     {
-        DoMoveX(normalDir.x);
-        DoMoveY(normalDir.y);
+        DoMoveByX(normalDir.x);
+        DoMoveByY(normalDir.y);
     }
 
     /// <summary>
     /// 向左右移动
     /// </summary>
-    /// <param name="dirX">X 轴方向, 取 [-1, 1] </param>
-    private void DoMoveX(float dirX)
+    /// <param name="dirX">X 轴方向, 取 [ -1, +1 ] 之间的数</param>
+    private void DoMoveByX(float dirX)
     {
-        if (dirX == 0)
+        if (0 == dirX)
         {
             return;
         }
 
         var hited = Physics.Raycast(
-            transform.position + Vector3.left * (dirX < 0f ? -1f : 1f),
+            transform.position + Vector3.left * (dirX < 0 ? -1f : +1f),
             Vector3.right * dirX,
             out var hitInfo,
             100f,
@@ -88,7 +94,7 @@ public class FighterBehav : MonoBehaviour
         // 中心到墙的距离, 实际可以移动的距离
         var mxD = hitInfo.distance - 1f;
         // 理论上的移动距离
-        var mvD = MOVE_SPEED * Time.deltaTime;
+        var mvD = MV_SPEED * Time.deltaTime;
 
         transform.Translate(Vector3.right * dirX * Mathf.Min(mxD, mvD));
     }
@@ -96,16 +102,16 @@ public class FighterBehav : MonoBehaviour
     /// <summary>
     /// 向上下移动
     /// </summary>
-    /// <param name="dirY">Y 轴方向, 取 [-1, 1} </param>
-    private void DoMoveY(float dirY)
+    /// <param name="dirY">Y 轴方向, 取 [ -1, +1 ]</param>
+    private void DoMoveByY(float dirY)
     {
-        if (dirY == 0)
+        if (0 == dirY)
         {
             return;
         }
 
         var hited = Physics.Raycast(
-            transform.position + Vector3.down * (dirY < 0f ? -1f : 1f),
+            transform.position + Vector3.down * (dirY < 0 ? -1 : +1), 
             Vector3.up * dirY,
             out var hitInfo,
             100f,
@@ -120,58 +126,57 @@ public class FighterBehav : MonoBehaviour
         // 中心到墙的距离, 实际可以移动的距离
         var mxD = hitInfo.distance - 1f;
         // 理论上的移动距离
-        var mvD = MOVE_SPEED * Time.deltaTime;
+        var mvD = MV_SPEED * Time.deltaTime;
 
         transform.Translate(Vector3.up * dirY * Mathf.Min(mxD, mvD));
     }
 
     /// <summary>
-    /// 带有物理效果的碰撞
+    /// 带物理效果的碰撞
     /// </summary>
-    /// <param name="collision">另一个碰撞体</param>
-    private void OnCollisionEnter(Collision collision)
+    /// <param name="c">另一个碰撞体</param>
+    private void OnCollisionEnter(Collision c)
     {
     }
 
     /// <summary>
     /// 不带物理效果的碰撞
     /// </summary>
-    /// <param name="collision">另一个碰撞体</param>
-    private void OnTriggerEnter(Collider collision)
+    /// <param name="c">另一个碰撞体</param>
+    private void OnTriggerEnter(Collider c)
     {
-        if (collision.gameObject.name.StartsWith("Reward_Bullet_1"))
+        if (c.gameObject.name.StartsWith("Reward_Bullet_1"))
         {
             if (_currGun is GunImpl_LitBall)
             {
-                _currGun.level = Mathf.Min(3, ++_currGun.level);
+                _currGun.Level = Mathf.Min(4, ++_currGun.Level);
             }
             else
             {
                 _currGun = new GunImpl_LitBall()
                 {
-                    level = 1
+                    Level = 1
                 };
             }
 
-            GameObject.Destroy(collision.gameObject);
+            GameObject.Destroy(c.gameObject);
         }
         else
-        if (collision.gameObject.name.StartsWith("Reward_Bullet_2"))
+        if (c.gameObject.name.StartsWith("Reward_Bullet_2"))
         {
             if (_currGun is GunImpl_Flash)
             {
-                _currGun.level = Mathf.Min(3, ++_currGun.level);
+                _currGun.Level = Mathf.Min(3, ++_currGun.Level);
             }
             else
             {
                 _currGun = new GunImpl_Flash()
                 {
-                    level = 2
+                    Level = 1
                 };
             }
-            GameObject.Destroy(collision.gameObject);
+
+            GameObject.Destroy(c.gameObject);
         }
     }
-
-
 }

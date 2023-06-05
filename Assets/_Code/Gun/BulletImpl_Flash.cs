@@ -2,42 +2,46 @@
 
 namespace Gun
 {
+    /// <summary>
+    /// 闪电子弹
+    /// </summary>
     public sealed class BulletImpl_Flash : AbstractBullet
     {
         /**
          * 移动速度
          */
-        private const float MOVE_SPEED = 100f;
+        private const float MV_SPEED = 100f;
 
         /**
          * 是否有原始位置
          */
-        private bool _hasOrignPos = false;
+        private bool _hasOrigPos = false;
 
         /**
          * 原始位置
          */
-        private Vector3 _orignPos;
+        private Vector3 _origPos;
 
         /**
          * 杀伤力
          */
         private int _dmg;
 
+        // @Override
         public override void DoFly()
         {
-            if (!_hasOrignPos)
+            if (!_hasOrigPos)
             {
-                _hasOrignPos = true;
-                _orignPos = transform.position;
+                _hasOrigPos = true;
+                _origPos = transform.position;
             }
 
-            gameObject.transform.Translate(Vector3.up * (MOVE_SPEED * Time.deltaTime));
+            gameObject.transform.Translate(Vector3.up * (MV_SPEED * Time.deltaTime));
 
-            if (gameObject.transform.position.y - _orignPos.y > 20f)
+            if (gameObject.transform.position.y - _origPos.y > 20f)
             {
                 var pos = gameObject.transform.position;
-                pos.Set(pos.x, _orignPos.y + 20f, pos.z);
+                pos.Set(pos.x, _origPos.y + 20f, pos.z);
                 gameObject.transform.position = pos;
 
                 Destroy(gameObject, 0.2f);
@@ -56,6 +60,7 @@ namespace Gun
             return this;
         }
 
+        // @Override
         public override int GetDmg() => _dmg;
     }
 }

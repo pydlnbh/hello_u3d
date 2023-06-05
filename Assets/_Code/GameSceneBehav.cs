@@ -10,7 +10,7 @@ public sealed class GameSceneBehav : MonoBehaviour
     /**
      * 输入策略
      */
-    private readonly AbstractInputStrategy _inputStrategy = new KeyboardInputStrategy();
+    private readonly AbstractInputStrategy _inputStrategy = new TouchInputStrategy();
 
     /**
      * 敌机节点

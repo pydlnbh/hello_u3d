@@ -5000,8 +5000,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5572a20700d062048b09285f9210f22e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MOVE_SPEED: 20
-  _curHP: 2
+  MV_SPEED: 10
+  _currHp: 10
 --- !u!1 &6653532298741158988
 GameObject:
   m_ObjectHideFlags: 0
@@ -14754,7 +14754,7 @@ GameObject:
   - component: {fileID: 6653532300056760021}
   - component: {fileID: 6653532300056760022}
   m_Layer: 7
-  m_Name: PSys_ForDestory
+  m_Name: PSys_ForDestroy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

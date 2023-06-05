@@ -1,19 +1,24 @@
 ﻿using Event;
+
 using Gun;
+
 using System;
+
 using UnityEngine;
 
+/// <summary>
+/// BOSS 行为
+/// </summary>
 public sealed class BossBehav : MonoBehaviour
 {
-
-    /// <summary>
-    /// Boss 血量
-    /// </summary>
+    /**
+     * 最大血量
+     */
     private const int MAX_HP = 100;
 
-    /// <summary>
-    /// 当前血量
-    /// </summary>
+    /**
+     * 当前血量
+     */
     private int _currHp = MAX_HP;
 
     /// <summary>
@@ -25,22 +30,29 @@ public sealed class BossBehav : MonoBehaviour
         set;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /// <summary>
+    /// 当碰撞到其他物体时触发
+    /// </summary>
+    /// <param name="c">另外一个物体的碰撞体</param>
+    private void OnCollisionEnter(Collision c)
     {
-        if (collision == null) 
+        if (null == c)
         {
             return;
         }
 
-        var bulletBehav = collision.gameObject.GetComponent<AbstractBullet>();
+        var bulletBehav = c.gameObject.GetComponent<AbstractBullet>();
         _currHp -= bulletBehav.GetDmg();
 
         SubtractHpEventHandler?.Invoke(
-            new SubtractHpEvent(_currHp, MAX_HP, bulletBehav.GetDmg()));
+            new SubtractHpEvent(_currHp, MAX_HP, bulletBehav.GetDmg())
+        );
 
-        if (!gameObject.TryGetComponent<Spine.Unity.SkeletonAnimation>(out var spSkeAnim)
-            || null == spSkeAnim)
+        if (!gameObject.TryGetComponent<Spine.Unity.SkeletonAnimation>(out var spSkeAnim) 
+         || null == spSkeAnim)
         {
+            // 如果没有拿到 Spine 的动画组件,
+            // 直接退出!
             return;
         }
 

@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// 触屏输入策略, 
+/// 适用于手机屏幕和鼠标操作
+/// </summary>
 public sealed class TouchInputStrategy : AbstractInputStrategy
 {
     /**
@@ -7,12 +11,11 @@ public sealed class TouchInputStrategy : AbstractInputStrategy
      */
     private Vector3 _toWorldPos = Vector3.zero;
 
+    // @Override
     public override void HandleInput()
     {
-        // 点击移动
-        DoMoveTo();
+        DoMove();
 
-        // 自动开火
         FighterBehav.TheInstance().DoFire();
 
         var hasTouched = false;
@@ -21,13 +24,13 @@ public sealed class TouchInputStrategy : AbstractInputStrategy
         if (Input.touchCount > 0)
         {
             hasTouched = true;
-            toPos = Input.GetTouch(0).position;
+            toPos = Input.GetTouch(0).position; // 屏幕位置
         }
-        else 
-        if (Input.GetMouseButton(0))
+        else
+        if (Input.GetMouseButton(0)) // 如果是点击了鼠标左键
         {
             hasTouched = true;
-            toPos = Input.mousePosition;
+            toPos = Input.mousePosition; // 屏幕位置
         }
 
         if (!hasTouched)
@@ -35,31 +38,38 @@ public sealed class TouchInputStrategy : AbstractInputStrategy
             return;
         }
 
-        var fighterPos = FighterBehav.TheInstance().transform.position;
-        var screenPoint = Camera.main.WorldToScreenPoint(fighterPos);
+        var fighterAtPos = FighterBehav.TheInstance().transform.position;
+        var screenPoint = Camera.main.WorldToScreenPoint(fighterAtPos);
         toPos.z = screenPoint.z;
 
         _toWorldPos = Camera.main.ScreenToWorldPoint(toPos);
     }
 
-    private void DoMoveTo()
+    /// <summary>
+    /// 执行移动到某个位置
+    /// </summary>
+    public void DoMove()
     {
         if (Vector3.zero == _toWorldPos)
         {
             return;
         }
 
-        var diffPos = _toWorldPos - FighterBehav.TheInstance().transform.position;
+        // 获取战机的当前位置
+        var fromWorldPos = FighterBehav.TheInstance().transform.position;
 
-        if (diffPos.sqrMagnitude < 0.2f)
+        if ((_toWorldPos - fromWorldPos).sqrMagnitude <= 0.2f)
         {
+            // 如果战机当前位置和目标位置非常接近,
+            // 则清理目标位置并退出!
+            _toWorldPos = Vector3.zero;
             return;
         }
 
+        var diffPos = _toWorldPos - fromWorldPos;
         var normalDir = diffPos;
-        normalDir.Normalize();
+        normalDir.Normalize(); // 归一化, 最终得到方向值
 
         FighterBehav.TheInstance().DoMoveBy(normalDir);
     }
 }
-
