@@ -1,22 +1,25 @@
 using System.Collections;
+
 using UnityEngine;
 
-public class GameSceneBehav : MonoBehaviour
+/// <summary>
+/// 游戏场景行为
+/// </summary>
+public sealed class GameSceneBehav : MonoBehaviour
 {
     /**
-     * 鼠标输入策略
+     * 输入策略
      */
-     private readonly AbstractInputStrategy _inputStrategy = new TouchInputStrategy();
-
-    // 键盘输入策略
-    // private readonly AbstractInputStrategy _inputStrategy = new KeyboardInputStrategy();
+    private readonly AbstractInputStrategy _inputStrategy = new KeyboardInputStrategy();
 
     /**
      * 敌机节点
      */
     public GameObject _enemy_1;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start
+    /// </summary>
     void Start()
     {
         StartCoroutine(CreateEnemy_XC());
@@ -36,9 +39,6 @@ public class GameSceneBehav : MonoBehaviour
             var rtHpSlot = GameObject.Find("/Canvas/Img_HpSlot").transform as RectTransform;
             var rtHpVal = rtHpSlot.Find("Img_HpVal") as RectTransform;
 
-            /*var currHpWidth = rtHpSlot.rect.width * widthRatio;
-            rtHpVal.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, currHpWidth);*/
-
             var leftMoveWidth = rtHpSlot.rect.width * (1f - widthRatio);
 
             var newPos = rtHpVal.anchoredPosition;
@@ -47,7 +47,9 @@ public class GameSceneBehav : MonoBehaviour
         };
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Update
+    /// </summary>
     void Update()
     {
         _inputStrategy.HandleInput();
@@ -57,28 +59,31 @@ public class GameSceneBehav : MonoBehaviour
             .material.SetTextureOffset("_MainTex", Vector2.up * (Time.time / 20f));
     }
 
+    /// <summary>
+    /// 通过协程方式创建敌机
+    /// </summary>
+    /// <returns>协程用的枚举迭代器</returns>
     private IEnumerator CreateEnemy_XC()
     {
         while (true)
         {
             // 先准备 5 秒
-            // yield return new WaitForSeconds(5f);
+            //yield return new WaitForSeconds(5f);
 
             for (var i = 0; i < 100; i++)
             {
                 yield return new WaitForSeconds(Random.Range(0f, 0.5f));
 
-                var enemyCreateRequest = EnemyFactory.CreateEnemy(
-                    "_Bundle.Out/enemy",
+                var enemyCreateReq = EnemyFactory.CreateNewEnemy(
+                    "_Bundle.Out/enemy", 
                     "Assets/_Bundle.Src/enemy/Prefab/Enemy_1.prefab"
                 );
 
-                yield return enemyCreateRequest;
+                yield return enemyCreateReq;
 
-                var goNewEnemy = enemyCreateRequest.GetNewEnemy();
+                var goNewEnemy = enemyCreateReq.GetNewEnemy();
 
-                goNewEnemy.transform.position += Vector3.right * Random.Range(-4f, 4f);
-                // goNewEnemy.transform.Rotate(Vector3.forward * 45f);
+                goNewEnemy.transform.position += Vector3.right * Random.Range(-4f, +4f);
             }
         }
     }

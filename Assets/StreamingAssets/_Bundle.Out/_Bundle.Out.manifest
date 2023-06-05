@@ -1,0 +1,13 @@
+ManifestFileVersion: 0
+CRC: 2405843472
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: enemy
+      Dependencies: {}
+    Info_1:
+      Name: reward
+      Dependencies: {}
+    Info_2:
+      Name: gun
+      Dependencies: {}

@@ -51,7 +51,7 @@ namespace Gun
                 }
 
                 _prefabLoadReq = new PrefabLoadRequest(bundleName, assetName);
-                _prefabLoadReq.completed += (_) =>
+                _prefabLoadReq.OnComplete += (_) =>
                 {
                     MoveNext();
                 };

@@ -1,7 +1,7 @@
-﻿
-using Comm;
+﻿using Comm;
+
 using System.Collections;
-using System.IO;
+
 using UnityEngine;
 
 /// <summary>
@@ -9,14 +9,27 @@ using UnityEngine;
 /// </summary>
 public static class EnemyFactory
 {
-
-
-    public static EnemyCreateRequest CreateEnemy(string bundleName, string assetName)
+    /// <summary>
+    /// 创建新的敌机
+    /// </summary>
+    /// <param name="bundleName">捆绑包名称</param>
+    /// <param name="assetName">资产名称</param>
+    /// <returns>敌机创建请求</returns>
+    public static EnemyCreateRequest CreateNewEnemy(string bundleName, string assetName)
     {
+        if (string.IsNullOrEmpty(bundleName)
+         || string.IsNullOrEmpty(assetName))
+        {
+            throw new System.ArgumentNullException();
+        }
+
         return new EnemyCreateRequest(bundleName, assetName);
     }
 
-    public class EnemyCreateRequest : IEnumerator
+    /// <summary>
+    /// 敌机创建请求
+    /// </summary>
+    public sealed class EnemyCreateRequest : IEnumerator
     {
         /**
          * 预制体加载请求
@@ -44,8 +57,10 @@ public static class EnemyFactory
             _prefabLoadReq = new PrefabLoadRequest(bundleName, assetName);
         }
 
+        // @Override
         public object Current => 1;
 
+        // @Override
         public bool MoveNext()
         {
             if (_prefabLoadReq.MoveNext())
@@ -60,13 +75,14 @@ public static class EnemyFactory
                 return false;
             }
 
-            // 创建复制体
+            // 根据模子（蓝本）创建出一个复制体
             _goNewEnemy = GameObject.Instantiate(goPrefab);
             _goNewEnemy.SetActive(true);
 
             return false;
         }
 
+        // @Override
         public void Reset()
         {
         }
